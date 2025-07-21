@@ -3,3 +3,4 @@ memo_dirs:
   - "./note"
 index_path: "./memoindex.bleve"
 editor: "notepad"
+language: "ja"

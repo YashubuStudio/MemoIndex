@@ -4,3 +4,21 @@ search:
   other: "検索"
 new_note:
   other: "新規メモ"
+language_set:
+  other: "言語を{{.Lang}}に設定しました"
+dir_added:
+  other: "{{.Dir}} を追加しました"
+dir_removed:
+  other: "{{.Dir}} を削除しました"
+dir_not_found:
+  other: "{{.Dir}} が見つかりません"
+already_exists:
+  other: "{{.Dir}} は既に存在します"
+search_placeholder:
+  other: "検索ワード"
+no_results:
+  other: "検索結果がありません。"
+created:
+  other: "作成: {{.Path}}"
+error:
+  other: "エラー: {{.Err}}"
