@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 	"ykvario.com/MemoIndex/config"
 	"ykvario.com/MemoIndex/i18n"
+	idx "ykvario.com/MemoIndex/index"
 )
 
 // Result represents a single search hit.
@@ -30,7 +31,13 @@ func ExecuteSearch(queryText string, limit int) ([]Result, error) {
 	}
 	defer index.Close()
 
-	q := bleve.NewMatchQuery(queryText)
+	// 🔽 修正：分かち書きしてから検索クエリ作成
+	wakatiQuery, err := idx.Wakati(queryText)
+	if err != nil {
+		return nil, fmt.Errorf("検索語の分かち書きに失敗: %w", err)
+	}
+
+	q := bleve.NewMatchQuery(wakatiQuery)
 	searchReq := bleve.NewSearchRequestOptions(q, limit, 0, false)
 	searchReq.Highlight = bleve.NewHighlight()
 

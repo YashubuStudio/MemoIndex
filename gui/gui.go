@@ -33,7 +33,7 @@ func Run() {
 	entry.SetPlaceHolder(i18n.T("search_placeholder", nil))
 
 	resultBox := widget.NewLabel("")
-	resultBox.Wrapping = fyne.TextWrapWord
+	resultBox.Wrapping = fyne.TextWrapBreak
 
 	searchButton := widget.NewButton(i18n.T("search", nil), func() {
 		results, err := search.ExecuteSearch(entry.Text, 3)
