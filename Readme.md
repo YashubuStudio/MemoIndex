@@ -110,6 +110,7 @@ memoindex new [ファイル名]
 1. Goインストール
 2. 本リポジトリをクローン
 3. 監視フォルダを設定（例: `config.yaml` 等）
+   - `memo_dir` や `index_path` には絶対パスも指定可能です
 
 ### 2. 起動
 

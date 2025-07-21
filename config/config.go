@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"os"
+	"path/filepath"
 
 	"gopkg.in/yaml.v3"
 )
@@ -23,5 +24,17 @@ func LoadConfig(path string) {
 	err = yaml.Unmarshal(data, &AppConfig)
 	if err != nil {
 		log.Fatalf("設定パース失敗: %v", err)
+	}
+
+	// 設定されたパスを絶対パスへ展開
+	if AppConfig.MemoDir != "" && !filepath.IsAbs(AppConfig.MemoDir) {
+		if abs, err := filepath.Abs(AppConfig.MemoDir); err == nil {
+			AppConfig.MemoDir = abs
+		}
+	}
+	if AppConfig.IndexPath != "" && !filepath.IsAbs(AppConfig.IndexPath) {
+		if abs, err := filepath.Abs(AppConfig.IndexPath); err == nil {
+			AppConfig.IndexPath = abs
+		}
 	}
 }
