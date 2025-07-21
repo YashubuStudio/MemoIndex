@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
@@ -31,7 +32,7 @@ func Run() {
 	entry := widget.NewEntry()
 	entry.SetPlaceHolder(i18n.T("search_placeholder", nil))
 
-	resultBox := widget.NewMultiLineLabel("")
+	resultBox := widget.NewLabel("")
 	resultBox.Wrapping = fyne.TextWrapWord
 
 	searchButton := widget.NewButton(i18n.T("search", nil), func() {
