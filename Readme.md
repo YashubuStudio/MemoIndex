@@ -128,6 +128,22 @@ memoindex new [ファイル名]
   memoindex gui
   ```
 
+### 3. ビルドとリリース
+
+#### クロスコンパイル
+
+`GOOS` と `GOARCH` を指定すると他 OS/アーキテクチャ向けにビルドできます。
+
+```bash
+# 例: Windows 64bit 向けの実行ファイルを生成
+GOOS=windows GOARCH=amd64 go build -o memoindex.exe
+```
+
+#### 配布例
+
+生成したバイナリと `config.yaml.sample` を zip 等にまとめて GitHub Releases へアップロードします。  
+CI (`.github/workflows/go.yml`) を拡張すれば、タグ作成時に自動ビルド・アーカイブ生成も可能です。
+
 ---
 
 ## ライセンス
