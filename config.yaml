@@ -1,0 +1,3 @@
+memo_dir: "./memo"
+index_path: "./memoindex.bleve"
+editor: "notepad"
