@@ -7,9 +7,9 @@ import (
 
 	"github.com/blevesearch/bleve/v2"
 	"github.com/spf13/cobra"
-)
 
-var indexPath = "memoindex.bleve"
+	"ykvario.com/MemoIndex/config"
+)
 
 var SearchCmd = &cobra.Command{
 	Use:   "search [query]",
@@ -17,6 +17,11 @@ var SearchCmd = &cobra.Command{
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		queryText := strings.Join(args, " ")
+
+		indexPath := config.AppConfig.IndexPath
+		if indexPath == "" {
+			indexPath = "./memoindex.bleve"
+		}
 
 		index, err := bleve.Open(indexPath)
 		if err != nil {
