@@ -109,8 +109,9 @@ memoindex new [ファイル名]
 
 1. Goインストール
 2. 本リポジトリをクローン
-3. 監視フォルダを設定（例: `config.yaml` 等）
-   - `memo_dir` や `index_path` には絶対パスも指定可能です
+3. `go build -o memoindex` で実行ファイルを作成
+4. `config.yaml.sample` を `config.yaml` にコピーして監視フォルダ等を設定
+   - `memo_dirs` や `index_path` には絶対パスも指定可能です
 
 ### 2. 起動
 
@@ -119,6 +120,7 @@ memoindex new [ファイル名]
   ```bash
   memoindex search "Go全文検索"
   memoindex new mymemo.txt
+  memoindex reindex
   ```
 * GUI:
 
