@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/blevesearch/bleve/v2"
 	"ykvario.com/MemoIndex/config"
@@ -34,16 +35,32 @@ func IndexFile(absPath string) error {
 	}
 	defer idx.Close()
 
-	// インデックスキーを相対パスにする（memoDirからの）
-	memoDir := config.AppConfig.MemoDir
-	if memoDir == "" {
-		memoDir = "./memo"
+	// インデックスキーを memoDirs からの相対パスで決定
+	memoDirs := config.AppConfig.MemoDirs
+	if len(memoDirs) == 0 {
+		memoDirs = []string{"./memo"} // デフォルト
 	}
-	relPath, _ := filepath.Rel(memoDir, absPath)
-	doc := map[string]string{"body": string(body)}
 
-	// 登録
-	if err := idx.Index(filepath.Join(memoDir, relPath), doc); err != nil {
+	var relPath string
+	found := false
+	for _, dir := range memoDirs {
+		rel, err := filepath.Rel(dir, absPath)
+		if err == nil && !strings.HasPrefix(rel, "..") {
+			relPath = filepath.ToSlash(filepath.Join(dir, rel)) // Unix風に統一
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		return fmt.Errorf("ファイルがmemo_dirsに含まれていません: %s", absPath)
+	}
+
+	doc := map[string]string{
+		"body": string(body),
+	}
+
+	if err := idx.Index(relPath, doc); err != nil {
 		return fmt.Errorf("インデックス登録失敗: %w", err)
 	}
 

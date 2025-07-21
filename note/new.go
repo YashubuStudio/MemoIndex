@@ -27,9 +27,10 @@ var NewNoteCmd = &cobra.Command{
 		}
 
 		// メモディレクトリ構成
-		memoDir := config.AppConfig.MemoDir
-		if memoDir == "" {
-			memoDir = "./memo"
+		memoDirs := config.AppConfig.MemoDirs
+		memoDir := "./memo"
+		if len(memoDirs) > 0 {
+			memoDir = memoDirs[0]
 		}
 		err := os.MkdirAll(memoDir, os.ModePerm)
 		if err != nil {

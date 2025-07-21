@@ -7,7 +7,6 @@ import (
 
 	"github.com/blevesearch/bleve/v2"
 	"github.com/spf13/cobra"
-
 	"ykvario.com/MemoIndex/config"
 )
 
@@ -36,6 +35,11 @@ var SearchCmd = &cobra.Command{
 		result, err := index.Search(search)
 		if err != nil {
 			log.Fatalf("検索に失敗しました: %v", err)
+		}
+
+		if result.Total == 0 {
+			fmt.Println("検索結果がありません。")
+			return
 		}
 
 		for i, hit := range result.Hits {

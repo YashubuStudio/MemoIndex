@@ -1,3 +1,5 @@
-memo_dir: "./memo"
+memo_dirs:
+  - "./memo"
+  - "./note"
 index_path: "./memoindex.bleve"
 editor: "notepad"
