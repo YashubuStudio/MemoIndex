@@ -1,0 +1,19 @@
+# メモファイル（作成されたものはすべて除外）
+/memo/
+
+# Bleve インデックス（フォルダ形式）
+**/*.bleve
+**/*.bleve/
+
+# その他一時ファイル・ログなど
+*.log
+*.swp
+*.bak
+*.bolt
+*.zap
+
+# VSCodeやOS由来のファイル
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
