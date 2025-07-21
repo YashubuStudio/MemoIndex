@@ -8,6 +8,7 @@ import (
 	"github.com/blevesearch/bleve/v2"
 	"github.com/spf13/cobra"
 	"ykvario.com/MemoIndex/config"
+	"ykvario.com/MemoIndex/i18n"
 )
 
 // Result represents a single search hit.
@@ -62,7 +63,7 @@ var SearchCmd = &cobra.Command{
 		}
 
 		if len(results) == 0 {
-			fmt.Println("検索結果がありません。")
+			fmt.Println(i18n.T("no_results", nil))
 			return
 		}
 

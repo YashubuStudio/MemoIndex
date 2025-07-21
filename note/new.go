@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"ykvario.com/MemoIndex/config"
+	"ykvario.com/MemoIndex/i18n"
 	"ykvario.com/MemoIndex/index"
 )
 
@@ -50,7 +51,7 @@ func CreateNewNote(filename string) (string, error) {
 	if err := os.WriteFile(filepathAbs, []byte(""), 0644); err != nil {
 		return "", fmt.Errorf("ファイル作成に失敗: %w", err)
 	}
-	fmt.Println("作成:", filepathAbs)
+	fmt.Println(i18n.T("created", map[string]interface{}{"Path": filepathAbs}))
 
 	editor := config.AppConfig.Editor
 	if editor == "" {

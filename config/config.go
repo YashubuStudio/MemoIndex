@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -11,6 +12,7 @@ type Config struct {
 	MemoDirs  []string `yaml:"memo_dirs"` // 複数対応に変更
 	IndexPath string   `yaml:"index_path"`
 	Editor    string   `yaml:"editor"`
+	Language  string   `yaml:"language"`
 }
 
 var AppConfig Config
@@ -24,4 +26,15 @@ func LoadConfig(path string) {
 	if err != nil {
 		log.Fatalf("設定パース失敗: %v", err)
 	}
+}
+
+func SaveConfig(path string) error {
+	data, err := yaml.Marshal(&AppConfig)
+	if err != nil {
+		return fmt.Errorf("設定シリアライズ失敗: %w", err)
+	}
+	if err := os.WriteFile(path, data, 0644); err != nil {
+		return fmt.Errorf("設定ファイル書き込み失敗: %w", err)
+	}
+	return nil
 }
