@@ -109,8 +109,9 @@ memoindex new [ファイル名]
 
 1. Goインストール
 2. 本リポジトリをクローン
-3. 監視フォルダを設定（例: `config.yaml` 等）
-   - `memo_dir` や `index_path` には絶対パスも指定可能です
+3. `go build -o memoindex` で実行ファイルを作成
+4. `config.yaml.sample` を `config.yaml` にコピーして監視フォルダ等を設定
+   - `memo_dirs` や `index_path` には絶対パスも指定可能です
 
 ### 2. 起動
 
@@ -119,12 +120,29 @@ memoindex new [ファイル名]
   ```bash
   memoindex search "Go全文検索"
   memoindex new mymemo.txt
+  memoindex reindex
   ```
 * GUI:
 
   ```
   memoindex gui
   ```
+
+### 3. ビルドとリリース
+
+#### クロスコンパイル
+
+`GOOS` と `GOARCH` を指定すると他 OS/アーキテクチャ向けにビルドできます。
+
+```bash
+# 例: Windows 64bit 向けの実行ファイルを生成
+GOOS=windows GOARCH=amd64 go build -o memoindex.exe
+```
+
+#### 配布例
+
+生成したバイナリと `config.yaml.sample` を zip 等にまとめて GitHub Releases へアップロードします。  
+CI (`.github/workflows/go.yml`) を拡張すれば、タグ作成時に自動ビルド・アーカイブ生成も可能です。
 
 ---
 

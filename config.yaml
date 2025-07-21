@@ -4,3 +4,4 @@ memo_dirs:
   - 'C:\Users\吉嶺圭人\Desktop\簡易メモ帳' 
 index_path: "./memoindex.bleve"
 editor: "notepad"
+language: "ja"

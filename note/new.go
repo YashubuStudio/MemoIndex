@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"ykvario.com/MemoIndex/config"
+	"ykvario.com/MemoIndex/i18n"
 	"ykvario.com/MemoIndex/index"
 )
 
@@ -22,49 +23,68 @@ var NewNoteCmd = &cobra.Command{
 		filename := ""
 		if len(args) > 0 {
 			filename = args[0]
-		} else {
-			filename = fmt.Sprintf("memo_%s.txt", time.Now().Format("20060102_150405"))
 		}
 
-		// メモディレクトリ構成
-		memoDirs := config.AppConfig.MemoDirs
-		memoDir := "./memo"
-		if len(memoDirs) > 0 {
-			memoDir = memoDirs[0]
-		}
-		err := os.MkdirAll(memoDir, os.ModePerm)
-		if err != nil {
-			log.Fatalf("メモディレクトリ作成失敗: %v", err)
-		}
-
-		filepathAbs := filepath.Join(memoDir, filename)
-
-		// ファイル作成
-		err = os.WriteFile(filepathAbs, []byte(""), 0644)
-		if err != nil {
-			log.Fatalf("ファイル作成に失敗: %v", err)
-		}
-		fmt.Println("作成:", filepathAbs)
-
-		// エディタ起動
-		editor := config.AppConfig.Editor
-		if editor == "" {
-			editor = os.Getenv("EDITOR")
-		}
-		if editor == "" {
-			editor = "notepad"
-		}
-
-		cmdEditor := exec.Command(editor, filepathAbs)
-		cmdEditor.Stdin = os.Stdin
-		cmdEditor.Stdout = os.Stdout
-		cmdEditor.Stderr = os.Stderr
-		cmdEditor.Run()
-
-		// インデックス登録（外部関数へ委譲）
-		err = index.IndexFile(filepathAbs)
-		if err != nil {
-			log.Fatalf("インデックス登録失敗: %v", err)
+		if _, err := CreateNewNote(filename); err != nil {
+			log.Fatalf("%v", err)
 		}
 	},
+}
+
+// CreateNewNote creates a new memo file, opens it with the configured
+// editor and indexes the file. The created absolute path is returned.
+func CreateNewNote(filename string) (string, error) {
+	if filename == "" {
+		filename = fmt.Sprintf("memo_%s.txt", time.Now().Format("20060102_150405"))
+	}
+
+	memoDirs := config.AppConfig.MemoDirs
+	memoDir := "./memo"
+	if len(memoDirs) > 0 {
+		memoDir = memoDirs[0]
+	}
+	if err := os.MkdirAll(memoDir, os.ModePerm); err != nil {
+		return "", fmt.Errorf("メモディレクトリ作成失敗: %w", err)
+	}
+
+	filepathAbs := filepath.Join(memoDir, filename)
+	if err := os.WriteFile(filepathAbs, []byte(""), 0644); err != nil {
+		return "", fmt.Errorf("ファイル作成に失敗: %w", err)
+	}
+	fmt.Println(i18n.T("created", map[string]interface{}{"Path": filepathAbs}))
+
+	editor := config.AppConfig.Editor
+	if editor == "" {
+		editor = os.Getenv("EDITOR")
+	}
+	if editor == "" {
+		editor = "notepad"
+	}
+
+	cmdEditor := exec.Command(editor, filepathAbs)
+	cmdEditor.Stdin = os.Stdin
+	cmdEditor.Stdout = os.Stdout
+	cmdEditor.Stderr = os.Stderr
+	if err := cmdEditor.Run(); err != nil {
+		return "", fmt.Errorf("エディタ起動失敗: %w", err)
+	}
+
+	if err := index.IndexFile(filepathAbs); err != nil {
+		return "", fmt.Errorf("インデックス登録失敗: %w", err)
+	}
+
+	return filepathAbs, nil
+}
+
+// OpenFile opens the specified file with the configured editor.
+func OpenFile(path string) error {
+	editor := config.AppConfig.Editor
+	if editor == "" {
+		editor = os.Getenv("EDITOR")
+	}
+	if editor == "" {
+		editor = "notepad"
+	}
+	cmdEditor := exec.Command(editor, path)
+	return cmdEditor.Start()
 }

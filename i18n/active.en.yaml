@@ -4,3 +4,21 @@ search:
   other: "Search"
 new_note:
   other: "New Note"
+language_set:
+  other: "Language set to {{.Lang}}"
+dir_added:
+  other: "Added {{.Dir}}"
+dir_removed:
+  other: "Removed {{.Dir}}"
+dir_not_found:
+  other: "{{.Dir}} not found"
+already_exists:
+  other: "{{.Dir}} already exists"
+search_placeholder:
+  other: "Search word"
+no_results:
+  other: "No results found."
+created:
+  other: "Created: {{.Path}}"
+error:
+  other: "Error: {{.Err}}"
