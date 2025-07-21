@@ -10,23 +10,24 @@ import (
 	"ykvario.com/MemoIndex/config"
 )
 
-// ファイル1件をインデックス登録
+// ファイル1件をインデックス登録（MeCab分かち書き付き）
 func IndexFile(absPath string) error {
-	// インデックスパス設定
 	indexPath := config.AppConfig.IndexPath
 	if indexPath == "" {
 		indexPath = "./memoindex.bleve"
 	}
 
-	// ファイル内容を読み込み
-	body, err := os.ReadFile(absPath)
+	bodyBytes, err := os.ReadFile(absPath)
 	if err != nil {
 		return fmt.Errorf("ファイル読み込み失敗: %w", err)
 	}
 
-	// インデックスを開く（または作成）
-	var idx bleve.Index
-	idx, err = bleve.Open(indexPath)
+	wakatiText, err := Wakati(string(bodyBytes))
+	if err != nil {
+		return fmt.Errorf("形態素解析失敗: %w", err)
+	}
+
+	idx, err := bleve.Open(indexPath)
 	if err != nil {
 		idx, err = bleve.New(indexPath, bleve.NewIndexMapping())
 		if err != nil {
@@ -35,10 +36,9 @@ func IndexFile(absPath string) error {
 	}
 	defer idx.Close()
 
-	// インデックスキーを memoDirs からの相対パスで決定
 	memoDirs := config.AppConfig.MemoDirs
 	if len(memoDirs) == 0 {
-		memoDirs = []string{"./memo"} // デフォルト
+		memoDirs = []string{"./memo"}
 	}
 
 	var relPath string
@@ -46,18 +46,17 @@ func IndexFile(absPath string) error {
 	for _, dir := range memoDirs {
 		rel, err := filepath.Rel(dir, absPath)
 		if err == nil && !strings.HasPrefix(rel, "..") {
-			relPath = filepath.ToSlash(filepath.Join(dir, rel)) // Unix風に統一
+			relPath = filepath.ToSlash(filepath.Join(dir, rel))
 			found = true
 			break
 		}
 	}
-
 	if !found {
 		return fmt.Errorf("ファイルがmemo_dirsに含まれていません: %s", absPath)
 	}
 
 	doc := map[string]string{
-		"body": string(body),
+		"body": wakatiText,
 	}
 
 	if err := idx.Index(relPath, doc); err != nil {

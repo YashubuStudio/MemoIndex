@@ -12,6 +12,7 @@ import (
 	"ykvario.com/MemoIndex/config"
 )
 
+// コマンド：再インデックス化
 var ReindexCmd = &cobra.Command{
 	Use:   "reindex",
 	Short: "メモフォルダ内のすべてのファイルを再インデックス化します",

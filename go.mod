@@ -3,11 +3,16 @@ module ykvario.com/MemoIndex
 go 1.24.5
 
 require (
-	fyne.io/fyne/v2 v2.6.1 // indirect
-	github.com/BurntSushi/toml v1.5.0 // indirect
+	github.com/blevesearch/bleve/v2 v2.5.2
+	github.com/ikawaha/kagome-dict/ipa v1.2.5
+	github.com/ikawaha/kagome/v2 v2.10.2
+	github.com/spf13/cobra v1.9.1
+	gopkg.in/yaml.v3 v3.0.1
+)
+
+require (
 	github.com/RoaringBitmap/roaring/v2 v2.4.5 // indirect
 	github.com/bits-and-blooms/bitset v1.22.0 // indirect
-	github.com/blevesearch/bleve/v2 v2.5.2 // indirect
 	github.com/blevesearch/bleve_index_api v1.2.8 // indirect
 	github.com/blevesearch/geo v0.2.3 // indirect
 	github.com/blevesearch/go-faiss v1.0.25 // indirect
@@ -25,17 +30,16 @@ require (
 	github.com/blevesearch/zapx/v14 v14.4.2 // indirect
 	github.com/blevesearch/zapx/v15 v15.4.2 // indirect
 	github.com/blevesearch/zapx/v16 v16.2.4 // indirect
-	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/golang/protobuf v1.3.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
+	github.com/ikawaha/kagome-dict v1.1.6 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/json-iterator/go v0.0.0-20171115153421-f7279a603ede // indirect
 	github.com/mschoch/smat v0.2.0 // indirect
-	github.com/nicksnyder/go-i18n/v2 v2.6.0 // indirect
-	github.com/spf13/cobra v1.9.1 // indirect
+	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
 	go.etcd.io/bbolt v1.4.0 // indirect
+	golang.org/x/sync v0.12.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
-	golang.org/x/text v0.23.0 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
+	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 )
