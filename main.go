@@ -6,6 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"ykvario.com/MemoIndex/config"
+	"ykvario.com/MemoIndex/gui"
 	"ykvario.com/MemoIndex/index"
 	"ykvario.com/MemoIndex/note"
 	"ykvario.com/MemoIndex/search"
@@ -23,6 +24,7 @@ func main() {
 	rootCmd.AddCommand(search.SearchCmd)
 	rootCmd.AddCommand(note.NewNoteCmd)
 	rootCmd.AddCommand(index.ReindexCmd)
+	rootCmd.AddCommand(gui.GuiCmd)
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
