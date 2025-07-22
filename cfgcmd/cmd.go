@@ -81,8 +81,40 @@ var removeDirCmd = &cobra.Command{
 	},
 }
 
+var indexPathCmd = &cobra.Command{
+	Use:   "index-path [path]",
+	Short: "インデックスファイルの保存先を設定します",
+	Args:  cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		path := args[0]
+		config.AppConfig.IndexPath = path
+		if err := config.SaveConfig("config.yaml"); err != nil {
+			return err
+		}
+		fmt.Println(i18n.T("index_set", map[string]interface{}{"Path": path}))
+		return nil
+	},
+}
+
+var editorCmd = &cobra.Command{
+	Use:   "editor [command]",
+	Short: "新規メモ作成に使用するエディターを設定します",
+	Args:  cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ed := args[0]
+		config.AppConfig.Editor = ed
+		if err := config.SaveConfig("config.yaml"); err != nil {
+			return err
+		}
+		fmt.Println(i18n.T("editor_set", map[string]interface{}{"Editor": ed}))
+		return nil
+	},
+}
+
 func init() {
 	Cmd.AddCommand(langCmd)
 	Cmd.AddCommand(addDirCmd)
 	Cmd.AddCommand(removeDirCmd)
+	Cmd.AddCommand(indexPathCmd)
+	Cmd.AddCommand(editorCmd)
 }

@@ -26,3 +26,7 @@ reindex:
   other: "Reindex"
 reindex_done:
   other: "Reindex completed: {{.Count}} entries indexed"
+index_set:
+  other: "Index file set to {{.Path}}"
+editor_set:
+  other: "Editor set to {{.Editor}}"

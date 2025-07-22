@@ -1,6 +1,18 @@
+# メモを保存するフォルダをリストで指定します
+# 例:
+#   - "./memo"
+#   - "/path/to/notes"
 memo_dirs:
   - "./memo"
   - "./note"
+
+# インデックスファイルの保存先
+# 例: "./memoindex.bleve"
 index_path: "./memoindex.bleve"
+
+# 新規メモ作成時に起動するエディター
+# 例: "notepad", "code", "vim"
 editor: "notepad"
+
+# UIメッセージの言語 ("ja" または "en")
 language: "ja"
