@@ -27,7 +27,11 @@ func ExecuteSearch(queryText string, limit int) ([]Result, error) {
 
 	index, err := bleve.Open(indexPath)
 	if err != nil {
-		return nil, fmt.Errorf("インデックスの読み込みに失敗しました: %w", err)
+		// インデックスが存在しない場合は新規作成
+		index, err = bleve.New(indexPath, idx.CreateKeywordIndexMapping())
+		if err != nil {
+			return nil, fmt.Errorf("インデックスの読み込みに失敗しました: %w", err)
+		}
 	}
 	defer index.Close()
 
