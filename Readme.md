@@ -1,6 +1,6 @@
 # MemoIndex
 
-MemoIndex は、指定したフォルダ内のテキストファイルを自動でインデックス化し、素早く全文検索できるローカルアプリです。GUI ウィンドウまたは CLI から利用できます。
+MemoIndex は、指定したフォルダ内のテキストファイルを自動でインデックス化し、素早く全文検索できるローカルアプリです。GUI ウィンドウまたは CLI から利用できます。現在はビルドの都合上、CLI 用と GUI 用で個別に実行ファイルを作成する構成になっています。
 
 ## 特長
 
@@ -11,18 +11,17 @@ MemoIndex は、指定したフォルダ内のテキストファイルを自動�
 
 ## インストール
 
-1. Go をインストールします。
-2. このリポジトリをクローン後、 `go build -o memoindex` でバイナリを作成します。ビルドせずに `go run .` で実行することも可能です。
+1. GitHub Releases からお使いの OS 用バイナリ（CLI 版 `memoindex` / GUI 版 `memoindex_gui`）をダウンロードし、任意の場所に展開します。
+2. ソースからビルドする場合は Go をインストールした上で、このリポジトリをクローンします。CLI 用は `go build -o memoindex`、GUI 用は `go build -ldflags="-H windowsgui" -o memoindex_gui` でバイナリを作成します（GUI は fyne ツールでのパッケージングも可能）。CLI のみ試す場合は `go run .` でも実行できます。
 3. `config.yaml.sample` を `config.yaml` にコピーし、監視したいフォルダやエディタパスを設定します。
 
 ## 使い方
 
-### CLI
+### CLI 版
 
 ```bash
 ./memoindex search "キーワード"   # 検索
 ./memoindex new [ファイル名]       # 新規メモ作成
-./memoindex gui                    # GUI を起動
 ./memoindex reindex               # インデックスを再構築
 ```
 
@@ -35,9 +34,9 @@ MemoIndex は、指定したフォルダ内のテキストファイルを自動�
 ./memoindex config editor vim         # 使用エディター変更
 ```
 
-### GUI
+### GUI 版
 
-`./memoindex gui` を実行すると検索ボックス付きのウィンドウが開きます。検索や新規メモ作成をボタン操作で行えます。
+`./memoindex_gui` を実行すると検索ボックス付きのウィンドウが開きます。検索や新規メモ作成をボタン操作で行えます。
 
 ## 設定
 
