@@ -36,8 +36,10 @@ func ExecuteSearch(queryText string, limit int) ([]Result, error) {
 	if err != nil {
 		return nil, fmt.Errorf("検索語の分かち書きに失敗: %w", err)
 	}
+	fmt.Println("【検索クエリ】", wakatiQuery)
 
-	q := bleve.NewMatchQuery(wakatiQuery)
+	q := bleve.NewQueryStringQuery(wakatiQuery) // ← ここを MatchQuery → QueryStringQuery に変更
+
 	searchReq := bleve.NewSearchRequestOptions(q, limit, 0, false)
 	searchReq.Highlight = bleve.NewHighlight()
 

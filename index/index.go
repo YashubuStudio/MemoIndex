@@ -10,7 +10,7 @@ import (
 	"ykvario.com/MemoIndex/config"
 )
 
-// ファイル1件をインデックス登録（MeCab分かち書き付き）
+// ファイル1件をインデックス登録（Kagome分かち書き付き）
 func IndexFile(absPath string) error {
 	indexPath := config.AppConfig.IndexPath
 	if indexPath == "" {
@@ -26,16 +26,20 @@ func IndexFile(absPath string) error {
 	if err != nil {
 		return fmt.Errorf("形態素解析失敗: %w", err)
 	}
+	//fmt.Println("【分かち書き】", wakatiText)
 
+	// インデックスオープン（なければ keyword アナライザで作成）
 	idx, err := bleve.Open(indexPath)
 	if err != nil {
-		idx, err = bleve.New(indexPath, bleve.NewIndexMapping())
+		idx, err = bleve.New(indexPath, createKeywordIndexMapping())
+		//idx, err = bleve.New(indexPath, createSimpleIndexMapping())
 		if err != nil {
 			return fmt.Errorf("インデックス作成失敗: %w", err)
 		}
 	}
 	defer idx.Close()
 
+	// memoDirs から相対パスを生成（IDとして使う）
 	memoDirs := config.AppConfig.MemoDirs
 	if len(memoDirs) == 0 {
 		memoDirs = []string{"./memo"}
@@ -55,8 +59,14 @@ func IndexFile(absPath string) error {
 		return fmt.Errorf("ファイルがmemo_dirsに含まれていません: %s", absPath)
 	}
 
-	doc := map[string]string{
-		"body": wakatiText,
+	//fmt.Println("【登録ファイル】", absPath)
+	//fmt.Println("【登録キー】", relPath)
+	//fmt.Println("【インデックス登録開始】")
+
+	// 登録データ：分かち書き文字列をスペース分割して slice 化
+	tokens := strings.Fields(wakatiText)
+	doc := map[string]interface{}{
+		"body": tokens, // keyword アナライザで各要素がそのまま1トークンになる
 	}
 
 	if err := idx.Index(relPath, doc); err != nil {

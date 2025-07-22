@@ -1,5 +1,6 @@
 # メモファイル（作成されたものはすべて除外）
 /memo/
+/memo/*
 
 # Bleve インデックス（フォルダ形式）
 **/*.bleve
@@ -11,6 +12,7 @@
 *.bak
 *.bolt
 *.zap
+*.txt
 
 # VSCodeやOS由来のファイル
 .vscode/
