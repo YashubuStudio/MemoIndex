@@ -13,7 +13,8 @@
 *.bolt
 *.zap
 *.txt
-.exe
+*.exe
+*.zip
 
 # VSCodeやOS由来のファイル
 .vscode/
@@ -21,3 +22,7 @@
 .DS_Store
 Thumbs.db
 config.yaml
+
+# リリース関連
+/Release/
+/Release/*

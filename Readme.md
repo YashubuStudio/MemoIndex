@@ -1,67 +1,101 @@
-# MemoIndex
+# 📦 MemoIndex v1.0.0 リリースノート
 
-MemoIndex は、指定したフォルダ内のテキストファイルを自動でインデックス化し、素早く全文検索できるローカルアプリです。GUI ウィンドウまたは CLI から利用できます。現在はビルドの都合上、CLI 用と GUI 用で個別に実行ファイルを作成する構成になっています。
+**MemoIndex** は、指定フォルダ内の `.txt` / `.md` / `.html` ファイルを自動でインデックス化し、全文検索できるローカルアプリです。  
+GUI と CLI の両方に対応しており、用途に応じて使い分けることができます。
 
-## 特長
+# 簡単な使い方
+## 初回起動
+### Windowsの場合
+1. 任意のフォルダにてZIPファイルを解凍する。
+2. MemoIndex_GUI.exe をダブルクリックして起動
+3. 入力欄にテキストを追加し「新規メモ帳」を押して内容を保存
 
-- `.txt` / `.md` / `.html` の内容を自動でインデックス化
-- ファイルを追加・編集するとインデックスを自動更新
-- 高速全文検索とスニペット表示
-- ワンクリックで新規メモ帳を作成
+### ターミナルの場合
+1. ターミナルで解凍した階層へ移動
+2. ./memoindex or memoindex を実行（GUIが起動します。）
 
-## インストール
 
-1. GitHub Releases からお使いの OS 用バイナリ（CLI 版 `memoindex` / GUI 版 `memoindex_gui`）をダウンロードし、任意の場所に展開します。
-2. ソースからビルドする場合は Go をインストールした上で、このリポジトリをクローンします。CLI 用は `go build -o memoindex`、GUI 用は `go build -ldflags="-H windowsgui" -o memoindex_gui` でバイナリを作成します（GUI は fyne ツールでのパッケージングも可能）。CLI のみ試す場合は `go run .` でも実行できます。
-3. `config.yaml.sample` を `config.yaml` にコピーし、監視したいフォルダやエディタパスを設定します。
+## 既にあるテキストファイルをインデックス化する
+※過去に1度以上起動済みであることが前提です。
+1. memoindex config add-dir [ディレクトリパス]
+2. memoindex reindex
+Linuxでは、memoindex → ./memoindex で動作します。
 
-## 使い方
 
-### CLI 版
+---
+
+## 🆕 主な機能
+
+- 複数フォルダにまたがるメモを自動インデックス化
+- 高速全文検索とスニペット付き結果表示
+- ファイルの更新を自動検知し、インデックスを更新
+- ワンクリックで新規メモ作成（GUI）
+- 日本語 / 英語 切り替え対応
+
+---
+
+## 💻 ダウンロードファイル
+
+| ファイル名 | 内容 |
+|------------|------|
+| `MemoIndex-windows-amd64.zip` | Windows 64bit 向け（GUI & CLI 同梱） |
+| `MemoIndex-linux-amd64.zip`   | Linux 64bit 向け（CLI、GUIはFyne環境必須） |
+
+`.zip` を展開後、`config.yaml.sample` を `config.yaml` にリネームして設定を行ってください。
+
+---
+
+## 🚀 使い方（CLI）
 
 ```bash
-./memoindex search "キーワード"   # 検索
-./memoindex new [ファイル名]       # 新規メモ作成
-./memoindex reindex               # インデックスを再構築
-```
+./memoindex search "キーワード"     # キーワード検索
+./memoindex new mynote.txt          # 新規メモ作成
+./memoindex reindex                 # インデックス再構築
+````
 
-設定変更は `memoindex config` サブコマンドで行えます。例:
+設定の変更例：
 
 ```bash
-./memoindex config lang ja            # 言語を日本語に設定
-./memoindex config add-dir ./notes    # フォルダを追加（自動で絶対パスに変換）
-./memoindex config index-path ./idx.bleve  # インデックスの保存先変更
-./memoindex config editor vim         # 使用エディター変更
+./memoindex config lang ja                 # 日本語に変更
+./memoindex config add-dir ./notes        # フォルダ追加
+./memoindex config index-path ./idx.bleve # 保存先変更
+./memoindex config editor code            # 使用エディタ変更
 ```
 
-### GUI 版
+---
 
-`./memoindex_gui` を実行すると検索ボックス付きのウィンドウが開きます。検索や新規メモ作成をボタン操作で行えます。
+## 🪟 GUI の使い方
 
-## 設定
+`memoindex_gui` を実行すると、検索ウィンドウが起動します。
+キーワード入力、検索、メモ作成がボタンで行えます。
 
-`config.yaml` で以下を設定できます。
+---
 
-- `memo_dirs` : 監視するフォルダのパス (複数指定可)
-- `index_path` : インデックスファイルの保存先
-- `editor` : 新規メモ作成時に開くエディタ
-- `language` : 使用する言語 (検索結果表示など)
+## ⚙ 設定ファイル（config.yaml）
 
-### 対応言語
+```yaml
+memo_dirs:
+  - "./notes"
+index_path: "./myindex.bleve"
+editor: "notepad"
+language: "ja"
+```
 
-- 日本語 (`ja`)
-- 英語 (`en`)
+---
 
-### 代表的なエディター
+## 🌐 対応言語
 
-- notepad
-- vim
-- nano
-- gedit
-- code (Visual Studio Code)
+* 日本語 (`ja`)
+* 英語 (`en`)
 
-## ライセンス
+---
 
-MIT
+## 📄 ライセンス
 
-開発に関する詳細な情報は `development_Readme.md` を参照してください。
+[[MIT License](https://chatgpt.com/c/LICENSE)](LICENSE)
+
+## 制作・著作
+本ソフトウェア MemoIndex の制作著作は [YashubuStudio](https://ykvario.com) に帰属します。
+
+
+開発向け情報は `development_Readme.md` を参照してください。
