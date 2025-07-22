@@ -13,6 +13,7 @@
 *.bolt
 *.zap
 *.txt
+.exe
 
 # VSCodeやOS由来のファイル
 .vscode/
