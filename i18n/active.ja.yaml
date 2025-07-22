@@ -22,3 +22,7 @@ created:
   other: "作成: {{.Path}}"
 error:
   other: "エラー: {{.Err}}"
+reindex:
+  other: "再インデックス"
+reindex_done:
+  other: "再インデックス完了: {{.Count}} 件登録"
