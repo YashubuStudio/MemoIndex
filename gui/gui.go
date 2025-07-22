@@ -77,9 +77,10 @@ var GuiCmd = &cobra.Command{
 func Run() {
 	a := app.New()
 	w := a.NewWindow("MemoIndex")
+	w.Resize(fyne.NewSize(640, 360)) // 初期ウィンドウサイズを設定
 
 	entry := widget.NewEntry()
-	entry.SetPlaceHolder(i18n.T("search_placeholder", nil))
+	entry.SetPlaceHolder(i18n.T("input_field", nil))
 
 	resultBox := widget.NewLabel("")
 	resultBox.Wrapping = fyne.TextWrapBreak

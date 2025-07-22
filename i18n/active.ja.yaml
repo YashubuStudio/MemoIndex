@@ -14,8 +14,8 @@ dir_not_found:
   other: "{{.Dir}} が見つかりません"
 already_exists:
   other: "{{.Dir}} は既に存在します"
-search_placeholder:
-  other: "検索ワード"
+input_field:
+  other: "入力欄"
 no_results:
   other: "検索結果がありません。"
 created:

@@ -14,8 +14,8 @@ dir_not_found:
   other: "{{.Dir}} not found"
 already_exists:
   other: "{{.Dir}} already exists"
-search_placeholder:
-  other: "Search word"
+input_field:
+  other: "Imput Field"
 no_results:
   other: "No results found."
 created:
