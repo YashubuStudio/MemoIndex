@@ -16,6 +16,7 @@ func IndexFile(absPath string) error {
 	if indexPath == "" {
 		indexPath = "./memoindex.bleve"
 	}
+	os.MkdirAll(filepath.Dir(indexPath), os.ModePerm)
 
 	bodyBytes, err := os.ReadFile(absPath)
 	if err != nil {
@@ -31,7 +32,7 @@ func IndexFile(absPath string) error {
 	// インデックスオープン（なければ keyword アナライザで作成）
 	idx, err := bleve.Open(indexPath)
 	if err != nil {
-		idx, err = bleve.New(indexPath, createKeywordIndexMapping())
+		idx, err = bleve.New(indexPath, CreateKeywordIndexMapping())
 		//idx, err = bleve.New(indexPath, createSimpleIndexMapping())
 		if err != nil {
 			return fmt.Errorf("インデックス作成失敗: %w", err)

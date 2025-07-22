@@ -36,8 +36,11 @@ func ReindexAll() (int, error) {
 	count := 0
 	for _, memoDir := range memoDirs {
 		if _, err := os.Stat(memoDir); os.IsNotExist(err) {
-			log.Printf("スキップ: メモフォルダが存在しません: %s", memoDir)
-			continue
+			if mkErr := os.MkdirAll(memoDir, os.ModePerm); mkErr != nil {
+				log.Printf("ディレクトリ作成失敗: %v", mkErr)
+				continue
+			}
+			log.Printf("メモフォルダを作成しました: %s", memoDir)
 		}
 
 		err := filepath.WalkDir(memoDir, func(path string, d fs.DirEntry, err error) error {

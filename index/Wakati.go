@@ -29,7 +29,7 @@ func Wakati(text string) (string, error) {
 	return strings.Join(words, " "), nil
 }
 
-func createKeywordIndexMapping() mapping.IndexMapping { // ← bleve. ではなく mapping. に変更
+func CreateKeywordIndexMapping() mapping.IndexMapping { // ← bleve. ではなく mapping. に変更
 	fieldMapping := bleve.NewTextFieldMapping()
 	fieldMapping.Analyzer = "keyword"
 
