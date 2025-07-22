@@ -163,6 +163,15 @@ fyne package -os windows -release
 fyne package -os linux -release
 ```
 
+Windows用exe化ビルド
+```bash
+CLIビルド
+go build .
+
+GUIビルド
+go build -ldflags="-H windowsgui" -o MemoIndex_GUI.exe .
+```
+
 #### 配布例
 
 生成したバイナリと `config.yaml.sample` を zip 等にまとめて GitHub Releases へアップロードします。  
