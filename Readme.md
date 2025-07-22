@@ -23,6 +23,16 @@ MemoIndex は、指定したフォルダ内のテキストファイルを自動�
 ./memoindex search "キーワード"   # 検索
 ./memoindex new [ファイル名]       # 新規メモ作成
 ./memoindex gui                    # GUI を起動
+./memoindex reindex               # インデックスを再構築
+```
+
+設定変更は `memoindex config` サブコマンドで行えます。例:
+
+```bash
+./memoindex config lang ja            # 言語を日本語に設定
+./memoindex config add-dir ./notes    # フォルダを追加
+./memoindex config index-path ./idx.bleve  # インデックスの保存先変更
+./memoindex config editor vim         # 使用エディター変更
 ```
 
 ### GUI
