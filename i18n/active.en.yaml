@@ -22,3 +22,7 @@ created:
   other: "Created: {{.Path}}"
 error:
   other: "Error: {{.Err}}"
+reindex:
+  other: "Reindex"
+reindex_done:
+  other: "Reindex completed: {{.Count}} entries indexed"

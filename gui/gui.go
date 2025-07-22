@@ -13,6 +13,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"ykvario.com/MemoIndex/i18n"
+	"ykvario.com/MemoIndex/index"
 	"ykvario.com/MemoIndex/note"
 	"ykvario.com/MemoIndex/search"
 )
@@ -48,20 +49,24 @@ func (l *buttonRowLayout) MinSize(objects []fyne.CanvasObject) fyne.Size {
 			h = ms
 		}
 	}
-	return fyne.NewSize(l.buttonWidth*2, h)
+	return fyne.NewSize(l.buttonWidth*float32(len(objects)), h)
 }
 
 func (l *buttonRowLayout) Layout(objects []fyne.CanvasObject, size fyne.Size) {
-	if len(objects) < 2 {
+	count := len(objects)
+	if count == 0 {
 		return
 	}
-	spacing := (size.Width - 2*l.buttonWidth) / 3
-	h0 := objects[0].MinSize().Height
-	h1 := objects[1].MinSize().Height
-	objects[0].Resize(fyne.NewSize(l.buttonWidth, h0))
-	objects[0].Move(fyne.NewPos(spacing, 0))
-	objects[1].Resize(fyne.NewSize(l.buttonWidth, h1))
-	objects[1].Move(fyne.NewPos(2*spacing+l.buttonWidth, 0))
+	spacing := (size.Width - float32(count)*l.buttonWidth) / float32(count+1)
+	if spacing < 0 {
+		spacing = 0
+	}
+	for i, o := range objects {
+		h := o.MinSize().Height
+		x := spacing + float32(i)*(l.buttonWidth+spacing)
+		o.Resize(fyne.NewSize(l.buttonWidth, h))
+		o.Move(fyne.NewPos(x, 0))
+	}
 }
 
 // GuiCmd defines the CLI command to start the GUI.
@@ -102,6 +107,16 @@ func Run() {
 		resultBox.SetText(text)
 	})
 
+	reindexButton := widget.NewButton(i18n.T("reindex", nil), func() {
+		count, err := index.ReindexAll()
+		if err != nil {
+			log.Println(err)
+			resultBox.SetText(i18n.T("error", map[string]interface{}{"Err": err}))
+			return
+		}
+		resultBox.SetText(i18n.T("reindex_done", map[string]interface{}{"Count": count}))
+	})
+
 	newButton := widget.NewButton(i18n.T("new_note", nil), func() {
 		filename := ""
 		title := strings.TrimSpace(entry.Text)
@@ -123,7 +138,7 @@ func Run() {
 
 	entryRow := container.New(&centerPercentLayout{percent: 95}, entry)
 	btnWidth := float32(7) * theme.TextSize()
-	buttonRow := container.New(&buttonRowLayout{buttonWidth: btnWidth}, searchButton, newButton)
+	buttonRow := container.New(&buttonRowLayout{buttonWidth: btnWidth}, reindexButton, searchButton, newButton)
 
 	content := container.NewVBox(entryRow, buttonRow, resultBox)
 
