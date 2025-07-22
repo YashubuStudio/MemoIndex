@@ -30,7 +30,7 @@ MemoIndex は、指定したフォルダ内のテキストファイルを自動�
 
 ```bash
 ./memoindex config lang ja            # 言語を日本語に設定
-./memoindex config add-dir ./notes    # フォルダを追加
+./memoindex config add-dir ./notes    # フォルダを追加（自動で絶対パスに変換）
 ./memoindex config index-path ./idx.bleve  # インデックスの保存先変更
 ./memoindex config editor vim         # 使用エディター変更
 ```
@@ -47,6 +47,19 @@ MemoIndex は、指定したフォルダ内のテキストファイルを自動�
 - `index_path` : インデックスファイルの保存先
 - `editor` : 新規メモ作成時に開くエディタ
 - `language` : 使用する言語 (検索結果表示など)
+
+### 対応言語
+
+- 日本語 (`ja`)
+- 英語 (`en`)
+
+### 代表的なエディター
+
+- notepad
+- vim
+- nano
+- gedit
+- code (Visual Studio Code)
 
 ## ライセンス
 

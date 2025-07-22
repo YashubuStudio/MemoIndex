@@ -2,6 +2,7 @@ package cfgcmd
 
 import (
 	"fmt"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"ykvario.com/MemoIndex/config"
@@ -38,17 +39,23 @@ var addDirCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		dir := args[0]
+		abs, err := filepath.Abs(dir)
+		if err != nil {
+			return err
+		}
+		abs = filepath.Clean(abs)
+
 		for _, d := range config.AppConfig.MemoDirs {
-			if d == dir {
-				fmt.Println(i18n.T("already_exists", map[string]interface{}{"Dir": dir}))
+			if filepath.Clean(d) == abs {
+				fmt.Println(i18n.T("already_exists", map[string]interface{}{"Dir": abs}))
 				return nil
 			}
 		}
-		config.AppConfig.MemoDirs = append(config.AppConfig.MemoDirs, dir)
+		config.AppConfig.MemoDirs = append(config.AppConfig.MemoDirs, abs)
 		if err := config.SaveConfig("config.yaml"); err != nil {
 			return err
 		}
-		fmt.Println(i18n.T("dir_added", map[string]interface{}{"Dir": dir}))
+		fmt.Println(i18n.T("dir_added", map[string]interface{}{"Dir": abs}))
 		return nil
 	},
 }
