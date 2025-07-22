@@ -109,7 +109,8 @@ memoindex new [ファイル名]
 
 1. Goインストール
 2. 本リポジトリをクローン
-3. `go build -o memoindex` で実行ファイルを作成
+3. `go build -o memoindex` で実行ファイルを作成（`go run .` でも試せます）
+   - 生成された `memoindex` バイナリひとつで CLI と GUI の両方を起動できます
 4. `config.yaml.sample` を `config.yaml` にコピーして監視フォルダ等を設定
    - `memo_dirs` や `index_path` には絶対パスも指定可能です
 
@@ -121,22 +122,45 @@ memoindex new [ファイル名]
   memoindex search "Go全文検索"
   memoindex new mymemo.txt
   memoindex reindex
+  
+  # ビルドせずに試す場合
+  go run . search "Go全文検索"
   ```
 * GUI:
 
-  ```
-  memoindex gui
+  ```bash
+  ./memoindex gui     # GUI ウィンドウを起動
+  
+  # ビルドせずに試す場合
+  go run . gui
   ```
 
 ### 3. ビルドとリリース
 
 #### クロスコンパイル
 
-`GOOS` と `GOARCH` を指定すると他 OS/アーキテクチャ向けにビルドできます。
+CLI 用バイナリは `GOOS` と `GOARCH` を指定してビルドできます。
 
 ```bash
-# 例: Windows 64bit 向けの実行ファイルを生成
-GOOS=windows GOARCH=amd64 go build -o memoindex.exe
+# Windows 64bit 向け
+GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o memoindex.exe
+
+# Linux 64bit 向け
+GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o memoindex
+```
+
+GUI を含めたバイナリを生成する場合は [fyne](https://github.com/fyne-io/fyne) の
+ツールを利用します。
+
+```bash
+# fyne ツールをインストール
+go install fyne.io/fyne/v2/cmd/fyne@latest
+
+# Windows 用 GUI ビルド
+fyne package -os windows -release
+
+# Linux 用 GUI ビルド
+fyne package -os linux -release
 ```
 
 #### 配布例
